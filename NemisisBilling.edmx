@@ -1,0 +1,563 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NemisisBillingModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="NemisisBillingModelStoreContainer">
+          <EntitySet Name="Category" EntityType="NemisisBillingModel.Store.Category" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CompanyProfile" EntityType="NemisisBillingModel.Store.CompanyProfile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customer" EntityType="NemisisBillingModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CustomerInvoice" EntityType="NemisisBillingModel.Store.CustomerInvoice" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CustomerInVoiceAndInVoiceItems" EntityType="NemisisBillingModel.Store.CustomerInVoiceAndInVoiceItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="InvoiceItems" EntityType="NemisisBillingModel.Store.InvoiceItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Product" EntityType="NemisisBillingModel.Store.Product" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tax" EntityType="NemisisBillingModel.Store.Tax" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__CustomerI__Custo__72C60C4A" Association="NemisisBillingModel.Store.FK__CustomerI__Custo__72C60C4A">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="CustomerInvoice" EntitySet="CustomerInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerI__Custo__73BA3083" Association="NemisisBillingModel.Store.FK__CustomerI__Custo__73BA3083">
+            <End Role="CustomerInvoice" EntitySet="CustomerInvoice" />
+            <End Role="CustomerInVoiceAndInVoiceItems" EntitySet="CustomerInVoiceAndInVoiceItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerI__InVoi__6EF57B66" Association="NemisisBillingModel.Store.FK__CustomerI__InVoi__6EF57B66">
+            <End Role="CustomerInVoiceAndInVoiceItems" EntitySet="CustomerInVoiceAndInVoiceItems" />
+            <End Role="CustomerInvoice" EntitySet="CustomerInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerI__Invoi__74AE54BC" Association="NemisisBillingModel.Store.FK__CustomerI__Invoi__74AE54BC">
+            <End Role="InvoiceItems" EntitySet="InvoiceItems" />
+            <End Role="CustomerInVoiceAndInVoiceItems" EntitySet="CustomerInVoiceAndInVoiceItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceIt__Produ__797309D9" Association="NemisisBillingModel.Store.FK__InvoiceIt__Produ__797309D9">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="InvoiceItems" EntitySet="InvoiceItems" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CompanyProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="REGNO" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="MobileNumber" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CustomerInvoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="InVoiceItemId" Type="int" />
+          <Property Name="DateOfCreation" Type="datetime" />
+          <Property Name="LastModifiedTime" Type="datetime" />
+          <Property Name="TotalAmountPaidByCustomer" Type="money" />
+          <Property Name="TotalAmountWithoutTax" Type="money" />
+          <Property Name="TotalDiscountInAmount" Type="money" />
+          <Property Name="TotalTaxAmount" Type="money" />
+          <Property Name="InvoiceTIN" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CustomerInVoiceAndInVoiceItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerInvoiceId" Type="int" />
+          <Property Name="InvoiceItemsId" Type="int" />
+        </EntityType>
+        <EntityType Name="InvoiceItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="SGSTPerItem" Type="decimal" />
+          <Property Name="CGSTPerItem" Type="decimal" />
+          <Property Name="TotalCGST" Type="decimal" />
+          <Property Name="TotalDiscount" Type="money" />
+          <Property Name="Measurement" Type="nvarchar(max)" />
+          <Property Name="TotalCalculatedAmount" Type="money" />
+          <Property Name="TotalSGST" Type="decimal" />
+          <Property Name="TotalAmountAfterDiscount" Type="money" />
+          <Property Name="SellPrice" Type="money" />
+          <Property Name="DiscountPerItem" Type="money" />
+          <Property Name="TaxValuePerItem" Type="money" />
+          <Property Name="TotalTaxValue" Type="money" />
+          <Property Name="TotalAmountWithoutTax" Type="money" />
+          <Property Name="TotalTaxAmount" Type="money" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="CostPrice" Type="money" />
+          <Property Name="SellPrice" Type="money" />
+          <Property Name="Measurements" Type="nvarchar(max)" />
+          <Property Name="SupplierId" Type="int" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="CGST" Type="decimal" />
+          <Property Name="SGST" Type="decimal" />
+          <Property Name="PofitPercent" Type="decimal" />
+        </EntityType>
+        <EntityType Name="Tax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CGST" Type="float" />
+          <Property Name="SCGST" Type="float" />
+          <Property Name="AdditionalTax" Type="float" />
+        </EntityType>
+        <Association Name="FK__CustomerI__Custo__72C60C4A">
+          <End Role="Customer" Type="NemisisBillingModel.Store.Customer" Multiplicity="0..1" />
+          <End Role="CustomerInvoice" Type="NemisisBillingModel.Store.CustomerInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInvoice">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerI__Custo__73BA3083">
+          <End Role="CustomerInvoice" Type="NemisisBillingModel.Store.CustomerInvoice" Multiplicity="0..1" />
+          <End Role="CustomerInVoiceAndInVoiceItems" Type="NemisisBillingModel.Store.CustomerInVoiceAndInVoiceItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerInvoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInVoiceAndInVoiceItems">
+              <PropertyRef Name="CustomerInvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerI__InVoi__6EF57B66">
+          <End Role="CustomerInVoiceAndInVoiceItems" Type="NemisisBillingModel.Store.CustomerInVoiceAndInVoiceItems" Multiplicity="0..1" />
+          <End Role="CustomerInvoice" Type="NemisisBillingModel.Store.CustomerInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerInVoiceAndInVoiceItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInvoice">
+              <PropertyRef Name="InVoiceItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerI__Invoi__74AE54BC">
+          <End Role="InvoiceItems" Type="NemisisBillingModel.Store.InvoiceItems" Multiplicity="0..1" />
+          <End Role="CustomerInVoiceAndInVoiceItems" Type="NemisisBillingModel.Store.CustomerInVoiceAndInVoiceItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvoiceItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInVoiceAndInVoiceItems">
+              <PropertyRef Name="InvoiceItemsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceIt__Produ__797309D9">
+          <End Role="Product" Type="NemisisBillingModel.Store.Product" Multiplicity="0..1" />
+          <End Role="InvoiceItems" Type="NemisisBillingModel.Store.InvoiceItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceItems">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NemisisBillingModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="NemisisBillingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="NemisisBillingModel.Category" />
+          <EntitySet Name="Products" EntityType="NemisisBillingModel.Product" />
+          <EntitySet Name="Taxes" EntityType="NemisisBillingModel.Tax" />
+          <EntitySet Name="Customers" EntityType="NemisisBillingModel.Customer" />
+          <EntitySet Name="CustomerInvoices" EntityType="NemisisBillingModel.CustomerInvoice" />
+          <EntitySet Name="CustomerInVoiceAndInVoiceItems" EntityType="NemisisBillingModel.CustomerInVoiceAndInVoiceItem" />
+          <EntitySet Name="InvoiceItems" EntityType="NemisisBillingModel.InvoiceItem" />
+          <AssociationSet Name="FK__CustomerI__Custo__72C60C4A" Association="NemisisBillingModel.FK__CustomerI__Custo__72C60C4A">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CustomerInvoice" EntitySet="CustomerInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerI__Custo__73BA3083" Association="NemisisBillingModel.FK__CustomerI__Custo__73BA3083">
+            <End Role="CustomerInvoice" EntitySet="CustomerInvoices" />
+            <End Role="CustomerInVoiceAndInVoiceItem" EntitySet="CustomerInVoiceAndInVoiceItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerI__InVoi__6EF57B66" Association="NemisisBillingModel.FK__CustomerI__InVoi__6EF57B66">
+            <End Role="CustomerInVoiceAndInVoiceItem" EntitySet="CustomerInVoiceAndInVoiceItems" />
+            <End Role="CustomerInvoice" EntitySet="CustomerInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CustomerI__Invoi__74AE54BC" Association="NemisisBillingModel.FK__CustomerI__Invoi__74AE54BC">
+            <End Role="InvoiceItem" EntitySet="InvoiceItems" />
+            <End Role="CustomerInVoiceAndInVoiceItem" EntitySet="CustomerInVoiceAndInVoiceItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InvoiceIt__Produ__797309D9" Association="NemisisBillingModel.FK__InvoiceIt__Produ__797309D9">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="InvoiceItem" EntitySet="InvoiceItems" />
+          </AssociationSet>
+          <EntitySet Name="CompanyProfiles" EntityType="NemisisBillingModel.CompanyProfile" />
+        </EntityContainer>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="CostPrice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SellPrice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Measurements" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Type="Decimal" Name="CGST" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="SGST" Precision="18" Scale="0" />
+          <NavigationProperty Name="InvoiceItems" Relationship="NemisisBillingModel.FK__InvoiceIt__Produ__797309D9" FromRole="Product" ToRole="InvoiceItem" />
+          <Property Type="Decimal" Name="PofitPercent" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Tax">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CGST" Type="Double" />
+          <Property Name="SCGST" Type="Double" />
+          <Property Name="AdditionalTax" Type="Double" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MobileNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerInvoices" Relationship="NemisisBillingModel.FK__CustomerI__Custo__72C60C4A" FromRole="Customer" ToRole="CustomerInvoice" />
+        </EntityType>
+        <EntityType Name="CustomerInvoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CustomerId" />
+          <Property Type="Int32" Name="InVoiceItemId" />
+          <Property Type="DateTime" Name="DateOfCreation" />
+          <Property Type="DateTime" Name="LastModifiedTime" />
+          <Property Type="Decimal" Name="TotalAmountPaidByCustomer" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TotalDiscountInAmount" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TotalTaxAmount" Precision="19" Scale="4" />
+          <NavigationProperty Name="Customer" Relationship="NemisisBillingModel.FK__CustomerI__Custo__72C60C4A" FromRole="CustomerInvoice" ToRole="Customer" />
+          <NavigationProperty Name="CustomerInVoiceAndInVoiceItems" Relationship="NemisisBillingModel.FK__CustomerI__Custo__73BA3083" FromRole="CustomerInvoice" ToRole="CustomerInVoiceAndInVoiceItem" />
+          <NavigationProperty Name="CustomerInVoiceAndInVoiceItem" Relationship="NemisisBillingModel.FK__CustomerI__InVoi__6EF57B66" FromRole="CustomerInvoice" ToRole="CustomerInVoiceAndInVoiceItem" />
+          <Property Type="Decimal" Name="TotalAmountWithoutTax" Precision="19" Scale="4" />
+          <Property Type="String" Name="InvoiceTIN" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CustomerInVoiceAndInVoiceItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CustomerInvoiceId" />
+          <Property Type="Int32" Name="InvoiceItemsId" />
+          <NavigationProperty Name="CustomerInvoice" Relationship="NemisisBillingModel.FK__CustomerI__Custo__73BA3083" FromRole="CustomerInVoiceAndInVoiceItem" ToRole="CustomerInvoice" />
+          <NavigationProperty Name="CustomerInvoices" Relationship="NemisisBillingModel.FK__CustomerI__InVoi__6EF57B66" FromRole="CustomerInVoiceAndInVoiceItem" ToRole="CustomerInvoice" />
+          <NavigationProperty Name="InvoiceItem" Relationship="NemisisBillingModel.FK__CustomerI__Invoi__74AE54BC" FromRole="CustomerInVoiceAndInVoiceItem" ToRole="InvoiceItem" />
+        </EntityType>
+        <EntityType Name="InvoiceItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Quantity" />
+          <Property Type="Int32" Name="ProductId" />
+          <Property Type="String" Name="Measurement" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="TotalCalculatedAmount" Precision="19" Scale="4" />
+          <NavigationProperty Name="CustomerInVoiceAndInVoiceItems" Relationship="NemisisBillingModel.FK__CustomerI__Invoi__74AE54BC" FromRole="InvoiceItem" ToRole="CustomerInVoiceAndInVoiceItem" />
+          <NavigationProperty Name="Product" Relationship="NemisisBillingModel.FK__InvoiceIt__Produ__797309D9" FromRole="InvoiceItem" ToRole="Product" />
+          <Property Type="Decimal" Name="SGSTPerItem" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="CGSTPerItem" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="TotalCGST" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="TotalDiscount" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TotalSGST" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="TotalAmountAfterDiscount" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="SellPrice" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="DiscountPerItem" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TaxValuePerItem" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TotalTaxValue" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TotalAmountWithoutTax" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TotalTaxAmount" Precision="19" Scale="4" />
+        </EntityType>
+        <Association Name="FK__CustomerI__Custo__72C60C4A">
+          <End Type="NemisisBillingModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="NemisisBillingModel.CustomerInvoice" Role="CustomerInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInvoice">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerI__Custo__73BA3083">
+          <End Type="NemisisBillingModel.CustomerInvoice" Role="CustomerInvoice" Multiplicity="0..1" />
+          <End Type="NemisisBillingModel.CustomerInVoiceAndInVoiceItem" Role="CustomerInVoiceAndInVoiceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerInvoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInVoiceAndInVoiceItem">
+              <PropertyRef Name="CustomerInvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerI__InVoi__6EF57B66">
+          <End Type="NemisisBillingModel.CustomerInVoiceAndInVoiceItem" Role="CustomerInVoiceAndInVoiceItem" Multiplicity="0..1" />
+          <End Type="NemisisBillingModel.CustomerInvoice" Role="CustomerInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerInVoiceAndInVoiceItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInvoice">
+              <PropertyRef Name="InVoiceItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CustomerI__Invoi__74AE54BC">
+          <End Type="NemisisBillingModel.InvoiceItem" Role="InvoiceItem" Multiplicity="0..1" />
+          <End Type="NemisisBillingModel.CustomerInVoiceAndInVoiceItem" Role="CustomerInVoiceAndInVoiceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvoiceItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerInVoiceAndInVoiceItem">
+              <PropertyRef Name="InvoiceItemsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InvoiceIt__Produ__797309D9">
+          <End Type="NemisisBillingModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="NemisisBillingModel.InvoiceItem" Role="InvoiceItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CompanyProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CompanyName" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ContactNumber" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="REGNO" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NemisisBillingModelStoreContainer" CdmEntityContainer="NemisisBillingEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="NemisisBillingModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="NemisisBillingModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="PofitPercent" ColumnName="PofitPercent" />
+                <ScalarProperty Name="SGST" ColumnName="SGST" />
+                <ScalarProperty Name="CGST" ColumnName="CGST" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+                <ScalarProperty Name="SellPrice" ColumnName="SellPrice" />
+                <ScalarProperty Name="Measurements" ColumnName="Measurements" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Taxes">
+            <EntityTypeMapping TypeName="NemisisBillingModel.Tax">
+              <MappingFragment StoreEntitySet="Tax">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CGST" ColumnName="CGST" />
+                <ScalarProperty Name="SCGST" ColumnName="SCGST" />
+                <ScalarProperty Name="AdditionalTax" ColumnName="AdditionalTax" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="NemisisBillingModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerInvoices">
+            <EntityTypeMapping TypeName="NemisisBillingModel.CustomerInvoice">
+              <MappingFragment StoreEntitySet="CustomerInvoice">
+                <ScalarProperty Name="InvoiceTIN" ColumnName="InvoiceTIN" />
+                <ScalarProperty Name="TotalAmountWithoutTax" ColumnName="TotalAmountWithoutTax" />
+                <ScalarProperty Name="TotalTaxAmount" ColumnName="TotalTaxAmount" />
+                <ScalarProperty Name="TotalDiscountInAmount" ColumnName="TotalDiscountInAmount" />
+                <ScalarProperty Name="TotalAmountPaidByCustomer" ColumnName="TotalAmountPaidByCustomer" />
+                <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+                <ScalarProperty Name="DateOfCreation" ColumnName="DateOfCreation" />
+                <ScalarProperty Name="InVoiceItemId" ColumnName="InVoiceItemId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerInVoiceAndInVoiceItems">
+            <EntityTypeMapping TypeName="NemisisBillingModel.CustomerInVoiceAndInVoiceItem">
+              <MappingFragment StoreEntitySet="CustomerInVoiceAndInVoiceItems">
+                <ScalarProperty Name="InvoiceItemsId" ColumnName="InvoiceItemsId" />
+                <ScalarProperty Name="CustomerInvoiceId" ColumnName="CustomerInvoiceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceItems">
+            <EntityTypeMapping TypeName="NemisisBillingModel.InvoiceItem">
+              <MappingFragment StoreEntitySet="InvoiceItems">
+                <ScalarProperty Name="TotalTaxAmount" ColumnName="TotalTaxAmount" />
+                <ScalarProperty Name="TotalAmountWithoutTax" ColumnName="TotalAmountWithoutTax" />
+                <ScalarProperty Name="TotalTaxValue" ColumnName="TotalTaxValue" />
+                <ScalarProperty Name="TaxValuePerItem" ColumnName="TaxValuePerItem" />
+                <ScalarProperty Name="DiscountPerItem" ColumnName="DiscountPerItem" />
+                <ScalarProperty Name="SellPrice" ColumnName="SellPrice" />
+                <ScalarProperty Name="TotalAmountAfterDiscount" ColumnName="TotalAmountAfterDiscount" />
+                <ScalarProperty Name="TotalSGST" ColumnName="TotalSGST" />
+                <ScalarProperty Name="TotalDiscount" ColumnName="TotalDiscount" />
+                <ScalarProperty Name="TotalCGST" ColumnName="TotalCGST" />
+                <ScalarProperty Name="CGSTPerItem" ColumnName="CGSTPerItem" />
+                <ScalarProperty Name="SGSTPerItem" ColumnName="SGSTPerItem" />
+                <ScalarProperty Name="TotalCalculatedAmount" ColumnName="TotalCalculatedAmount" />
+                <ScalarProperty Name="Measurement" ColumnName="Measurement" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyProfiles">
+            <EntityTypeMapping TypeName="NemisisBillingModel.CompanyProfile">
+              <MappingFragment StoreEntitySet="CompanyProfile">
+                <ScalarProperty Name="REGNO" ColumnName="REGNO" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="NemisisBilling" ZoomLevel="88">
+        <EntityTypeShape EntityType="NemisisBillingModel.Category" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583331" IsExpanded="true" />
+        <EntityTypeShape EntityType="NemisisBillingModel.Product" Width="1.5" PointX="2.75" PointY="0.75" Height="3.1340950520833331" IsExpanded="true" />
+        <EntityTypeShape EntityType="NemisisBillingModel.Tax" Width="1.5" PointX="4.75" PointY="0.75" Height="1.7879850260416665" IsExpanded="true" />
+        <EntityTypeShape EntityType="NemisisBillingModel.Customer" Width="1.5" PointX="0.75" PointY="4.625" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="NemisisBillingModel.CustomerInvoice" Width="1.5" PointX="3" PointY="4" Height="3.3263964843749996" />
+        <EntityTypeShape EntityType="NemisisBillingModel.CustomerInVoiceAndInVoiceItem" Width="1.5" PointX="5.25" PointY="4.625" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="NemisisBillingModel.InvoiceItem" Width="5.5" PointX="3" PointY="8.125" Height="4.8648079427083335" />
+        <AssociationConnector Association="NemisisBillingModel.FK__CustomerI__Custo__72C60C4A" >
+          <ConnectorPoint PointX="2.25" PointY="5.6151432291666667" />
+          <ConnectorPoint PointX="3" PointY="5.6151432291666667" />
+        </AssociationConnector>
+        <AssociationConnector Association="NemisisBillingModel.FK__CustomerI__Custo__73BA3083" >
+          <ConnectorPoint PointX="4.5" PointY="6.0141174316406243" />
+          <ConnectorPoint PointX="5.25" PointY="6.0141174316406243" />
+        </AssociationConnector>
+        <AssociationConnector Association="NemisisBillingModel.FK__CustomerI__InVoi__6EF57B66" >
+          <ConnectorPoint PointX="5.25" PointY="5.2570587158203121" />
+          <ConnectorPoint PointX="4.5" PointY="5.2570587158203121" />
+        </AssociationConnector>
+        <AssociationConnector Association="NemisisBillingModel.FK__CustomerI__Invoi__74AE54BC" >
+          <ConnectorPoint PointX="6" PointY="8.125" />
+          <ConnectorPoint PointX="6" PointY="6.797587890625" />
+        </AssociationConnector>
+        <AssociationConnector Association="NemisisBillingModel.FK__InvoiceIt__Produ__797309D9" >
+          <ConnectorPoint PointX="4.25" PointY="3.3651432291666659" />
+          <ConnectorPoint PointX="7.0625" PointY="3.3651432291666659" />
+          <ConnectorPoint PointX="7.0625" PointY="8.125" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="NemisisBillingModel.CompanyProfile" Width="1.5" PointX="7.375" PointY="0.75" Height="1.9802864583333317" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
